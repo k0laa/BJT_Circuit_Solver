@@ -55,3 +55,7 @@ def find_Vb(Vth, Ib, Rth):
 
 def find_Vb_onDiode(Ve):
     return Ve + 0.7
+
+
+def find_beta(Ic, Ib):
+    return Ic / Ib

@@ -1,3 +1,4 @@
+"""
 # voltages
 Vcc, Ve, Vb, Vc, Vce, Vbe, VR1, VR2 = 0.0, 0.0, 0.0, 0.0, 0.0, 0.7, 0.0, 0.0
 
@@ -9,93 +10,35 @@ Re, Rb, Rb1, Rb2, Rc = 0.0, 0.0, 0.0, 0.0
 
 # beta
 beta = 0.0
+"""
+
+import Fixed_Bias_Solver as fbs
 
 
-def find_Ib(Vb, Vbe, Rb1, Rb2, Re, beta):
-    Vth = find_Vth(Vb, Rb1, Rb2)
-    Rth = find_Rth(Rb1, Rb2)
+#### Current Calculations ####
+def find_Ib(Vth, Rth, Re, beta, Vbe=0.7):
     return (Vth - Vbe) / (Rth + (beta + 1) * Re)
 
 
-def find_Vth(Vb, Rb1, Rb2):
-    return Vb / (Rb1 + Rb2) * Rb2
+#### Voltage Calculations ####
+def find_Vth(Vcc, R1, R2):
+    return Vcc * R2 / (R1 + R2)
 
 
-def find_Rth(Rb1, Rb2):
-    return Rb1 * Rb2 / (Rb1 + Rb2)
+#### Resistance Calculations ####
+def find_Rth(R1, R2):
+    return R1 * R2 / (R1 + R2)
 
 
-def find_Ic(Ib, beta):
-    return Ib * beta
+#### Solver ####
 
-
-def find_Ic_onVc(Vcc, Vc, Rc):
-    return (Vcc - Vc) / Rc
-
-
-def find_Ie(Ib, Ic):
-    return Ib + Ic
-
-
-def find_Ie_onBeta(Ib, beta):
-    return Ib * (beta + 1)
-
-
-def find_Ie_onIc(Ic):
-    return Ic / beta * (beta + 1)
-
-
-def find_IR1(Vcc, Vb, Rb1):
-    return (Vcc - Vb) / Rb1
-
-
-def find_IR2(Vb, Rb2):
-    return Vb / Rb2
-
-
-def find_Vce(Vc, Ve):
-    return Vc - Ve
-
-
-def find_Vc(Vcc, Ic, Rc):
-    return Vcc - (Ic * Rc)
-
-
-def find_Ve(Ie, Re):
-    return Ie * Re
-
-
-def find_Vb(Vth, Ib, Rth):
-    return Vth - (Ib * Rth)
-
-
-def find_Vb_onDiode(Ve):
-    return Ve + 0.7
-
-
-def find_VR1(Vcc, Vb):
-    return Vcc - Vb
-
-
-def find_VR2(Vb):
-    return Vb
-
-
-def find_beta(Ic, Ib):
-    return Ic / Ib
-
-
-def find_Re(Ve, Ie):
-    return Ve / Ie
-
-
-def find_Rc(Vcc, Ic):
-    return Vcc / Ic
-
-
-def find_Rb1(VR1, IR1):
-    return VR1 / IR1
-
-
-def find_Rb2(VR2, IR2):
-    return VR2 / IR2
+# Type 1 Solver
+# Expected Inputs: Vcc, Rb, Rc, Re, beta
+# Outputs: Vb, Vc, Ve, Vce, Vbe, Ib, Ic, Ie
+def type1_solver(Vcc, Rb1, Rb2, Rc, Re, beta):
+    Rth = find_Rth(Rb1, Rb2)
+    Vth = find_Vth(Vcc, Rb1, Rb2)
+    Ib = find_Ib(Vth, Rth, Re, beta)
+    Ic = fbs.find_Ic(Ib, beta)
+    Ie = Ib + Ic
+    # devam edicel!!

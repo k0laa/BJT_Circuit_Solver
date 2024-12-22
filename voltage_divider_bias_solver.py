@@ -1,13 +1,13 @@
 # voltages
-Vcc, Ve, Vb, Vc, Vce, Vbe = 0.0, 0.0, 0.0, 0.0, 0.0, 0.7
+Vcc, Ve, Vb, Vc, Vce, Vbe, VR1, VR2 = 0.0, 0.0, 0.0, 0.0, 0.0, 0.7, 0.0, 0.0
 
 # currents
-Ie, Ib, Ic = 0.0, 0.0, 0.0
+Ie, Ib, Ic, IR1, IR2 = 0.0, 0.0, 0.0, 0.0, 0.0
 
 # resistors
-Re, Rb1, Rb2, Rc = 0.0, 0.0, 0.0, 0.0
+Re, Rb, Rb1, Rb2, Rc = 0.0, 0.0, 0.0, 0.0
 
-# betas
+# beta
 beta = 0.0
 
 
@@ -28,6 +28,7 @@ def find_Rth(Rb1, Rb2):
 def find_Ic(Ib, beta):
     return Ib * beta
 
+
 def find_Ic_onVc(Vcc, Vc, Rc):
     return (Vcc - Vc) / Rc
 
@@ -43,11 +44,14 @@ def find_Ie_onBeta(Ib, beta):
 def find_Ie_onIc(Ic):
     return Ic / beta * (beta + 1)
 
+
 def find_IR1(Vcc, Vb, Rb1):
     return (Vcc - Vb) / Rb1
 
+
 def find_IR2(Vb, Rb2):
     return Vb / Rb2
+
 
 def find_Vce(Vc, Ve):
     return Vc - Ve
@@ -68,8 +72,10 @@ def find_Vb(Vth, Ib, Rth):
 def find_Vb_onDiode(Ve):
     return Ve + 0.7
 
+
 def find_VR1(Vcc, Vb):
     return Vcc - Vb
+
 
 def find_VR2(Vb):
     return Vb
@@ -87,8 +93,9 @@ def find_Rc(Vcc, Ic):
     return Vcc / Ic
 
 
-def find_Rb1(VR1, IR1 ):
+def find_Rb1(VR1, IR1):
     return VR1 / IR1
+
 
 def find_Rb2(VR2, IR2):
     return VR2 / IR2

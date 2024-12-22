@@ -1,6 +1,6 @@
 """"
 # voltages
-Vcc, Vb, Vc, Ve, Vce, Vbe = 0.0, 0.0, 0.0, 0.0, 0.0, 0.7
+Vcc, Vbb, Vb, Vc, Ve, Vce, Vbe = 0.0, 0.0, 0.0, 0.0, 0.0, 0.7
 
 # currents
 Ib, Ic, Ie = 0.0, 0.0, 0.0
@@ -11,12 +11,11 @@ Rb, Rc, = 0.0, 0.0
 # beta
 beta = 0.0
 """
-from enum import IntEnum
 
 
 #### Current Calculations ####
-def find_Ib(Vcc, Rb, Vbe=0.7):
-    return (Vcc - Vbe) / Rb
+def find_Ib(Vbb, Rb, Vbe=0.7):
+    return (Vbb - Vbe) / Rb
 
 
 def find_Ic(Ib, beta):
@@ -24,17 +23,8 @@ def find_Ic(Ib, beta):
 
 
 #### Voltage Calculations ####
-
-def find_Vbe(Vb=0.7, Ve=0.0):
-    return Vb - Ve
-
-
 def find_Vce(Vc, Ve=0.0):
     return Vc - Ve
-
-
-def find_Vb(Vcc, Ib, Rb):
-    return Vcc - Ib * Rb
 
 
 def find_Vc(Vcc, Ic, Rc):
@@ -46,9 +36,8 @@ def find_Vcc(Vc, Ic, Rc):
 
 
 #### Resistance Calculations ####
-
-def find_Rb(Vcc, Ib, Vbe=0.7):
-    return (Vcc - Vbe) / Ib
+def find_Rb(Vbb, Ib, Vbe=0.7):
+    return (Vbb - Vbe) / Ib
 
 
 def find_Rc(Vcc, Ic, Vc):
@@ -75,7 +64,6 @@ def type1_solver(Vcc, Rb, Rc, beta):
 # Type 2 Solver
 # Expected Inputs: Vcc, Vc, Ib, beta
 # Outputs: Vb, Ve, Vbe, Vce, Rb, Rc, Ic, Ie
-
 def type2_solver(Vcc, Vc, Ib, beta):
     Ic = find_Ic(Ib, beta)
     Rb = find_Rb(Vcc, Ib)
@@ -91,7 +79,6 @@ def type2_solver(Vcc, Vc, Ib, beta):
 # Type 3 Solver
 # Expected Inputs: Vce, Ib, Ie, Rc
 # Outputs: Vb, Vc, Ve, Vcc, Vbe, Rb, Ic, beta
-
 def type3_solver(Vce, Ib, Ie, Rc):
     Ic = Ie - Ib
     Vcc = find_Vcc(Vce, Ic, Rc)  # Vce = Vc

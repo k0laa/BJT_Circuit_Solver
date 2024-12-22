@@ -24,3 +24,13 @@ def find_Vth(Vb, Rb1, Rb2):
 def find_Rth(Rb1, Rb2):
     return Rb1 * Rb2 / (Rb1 + Rb2)
 
+
+def find_Ic(Ib, beta):
+    return Ib * beta
+
+
+def find_Ie(Ib, Ic):
+    return Ib + Ic
+
+def find_Ie_onBeta(Ib, beta):
+    return Ib * (beta + 1)
